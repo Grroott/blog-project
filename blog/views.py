@@ -31,9 +31,9 @@ def new_post(request):
 	return render(request, 'blog/new_post.html', {'form':form})
 
 def post_detail(request, slug):
-	qs = Post.objects.get(slug=slug)
+	post = Post.objects.get(slug=slug)
 	context = {
-	'qs' : qs
+	'post' : post
 	}
 
 	return render(request, 'blog/post_detail.html', context)
