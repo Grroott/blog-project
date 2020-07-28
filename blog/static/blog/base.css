@@ -1,0 +1,32 @@
+body {
+	margin-top: 5rem;
+	background-color: #f7f7f7;
+}
+
+.bg-custom {
+	background-color: #181a19;
+}
+
+.test {
+  height: 65px;
+  width: 65px;
+  margin-right: 16px;
+  border-radius: 50%;
+}
+
+.blog-section {
+	background-color: #ffffff;
+	border: 1px solid #bdbdbd;
+	padding-top: 10px;
+	padding-left: 25px;
+	
+}
+
+.blog-title {
+	text-align: center;
+	font-weight: 100px;
+}
+
+.blog-content {
+	margin-top: 1rem;
+}
