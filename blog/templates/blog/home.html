@@ -5,7 +5,8 @@
 		<p>Have something in mind?</p>
 	</div>
 	{% for i in objects %}
-		<p>{{ i.title }}</p>
-
+		<a href="{% url 'post-detail' i.slug %}">{{ i.title }}</a>
+		<br>
+		
 	{% endfor %}
 {% endblock content %}

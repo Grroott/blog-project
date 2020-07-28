@@ -29,3 +29,11 @@ def new_post(request):
 	else:	
 		form = NewForm()
 	return render(request, 'blog/new_post.html', {'form':form})
+
+def post_detail(request, slug):
+	qs = Post.objects.get(slug=slug)
+	context = {
+	'qs' : qs
+	}
+
+	return render(request, 'blog/post_detail.html', context)

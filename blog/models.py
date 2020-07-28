@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.text import slugify
+import secrets
 
 # Create your models here.
 
@@ -17,6 +18,5 @@ class Post(models.Model):
 		return self.title
 
 	def save(self, *args, **kwargs):
-		qs = Post.objects.values_list('id', flat=True).order_by('-date_posted')
-		self.slug ="%s-%s" %(slugify(self.title, allow_unicode=True), qs.first()+1)
+		self.slug ="%s-%s" %(slugify(self.title, allow_unicode=True), secrets.token_hex(10))
 		return super(Post, self).save(*args, **kwargs)
