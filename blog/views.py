@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from django.views.generic import ListView
-from .forms import NewForm
+from .forms import NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
@@ -18,7 +18,7 @@ def home(request):
 
 def new_post(request):
 	if request.method == "POST":
-		form = NewForm(request.POST)
+		form = NewPostForm(request.POST)
 		if form.is_valid():
 			u = User.objects.get(id=1)
 			instance = form.save(commit=False)
@@ -27,11 +27,11 @@ def new_post(request):
 			title = form.cleaned_data.get('title')
 			return redirect('home')
 	else:	
-		form = NewForm()
+		form = NewPostForm()
 	return render(request, 'blog/new_post.html', {'form':form})
 
 def post_detail(request, slug):
-	post = Post.objects.get(slug=slug)
+	post = get_object_or_404(Post, slug=slug)
 	context = {
 	'post' : post
 	}

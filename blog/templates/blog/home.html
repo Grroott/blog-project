@@ -2,10 +2,11 @@
 
 {% block content %}
 	<div class="want-to-write-something">
-		<p>Have something in mind?</p>
+		<p>Have something in mind? <a href="{% url 'new-post' %}">Write here!</a></p>
 	</div>
-	{% for i in objects %}
-		<a href="{% url 'post-detail' i.slug %}">{{ i.title }}</a>
+	{% for post in objects %}
+		<a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a>
+		<img src="https://images.yourstory.com/cs/5/803961002d6d11e9aa979329348d4c3e/MH1-1593534796904.png?fm=png&auto=format&ar=2:1&mode=crop&crop=entropy" class="qwerty">
 		<br>
 		
 	{% endfor %}
