@@ -4,7 +4,7 @@
 	<div class="want-to-write-something">
 		<p>Have something in mind? <a href="{% url 'new-post' %}">Write here!</a></p>
 	</div>
-	
+	<p>{{ request.user }}</p>
 	<div class="blog-section">
 		{% for post in objects %}
 			<!-- <a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a> -->
