@@ -20,9 +20,9 @@ def new_post(request):
 	if request.method == "POST":
 		form = NewPostForm(request.POST)
 		if form.is_valid():
-			u = User.objects.get(id=1)
+			current_user = User.objects.get(id=request.user.id)
 			instance = form.save(commit=False)
-			instance.author = u
+			instance.author = current_user
 			instance.save()
 			title = form.cleaned_data.get('title')
 			return redirect('home')
