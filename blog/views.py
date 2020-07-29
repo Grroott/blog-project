@@ -15,7 +15,7 @@ def home(request):
 	}
 	return render(request, 'blog/home.html', context)
 
-
+@login_required
 def new_post(request):
 	if request.method == "POST":
 		form = NewPostForm(request.POST)
