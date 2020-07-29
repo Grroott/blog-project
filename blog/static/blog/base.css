@@ -7,11 +7,16 @@ body {
 	background-color: #181a19;
 }
 
-.test {
+.want-to-write-something{
+	font-style: italic;
+	text-align: center;
+}
+
+.profile-pic {
   height: 65px;
   width: 65px;
   margin-right: 16px;
-  border-radius: 50%;
+  border-radius: 10px;
 }
 
 .blog-section {
@@ -19,6 +24,7 @@ body {
 	border: 1px solid #bdbdbd;
 	padding-top: 10px;
 	padding-left: 25px;
+	padding-bottom: 10px; 
 	
 }
 

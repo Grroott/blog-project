@@ -1,13 +1,22 @@
 {% extends "blog/base.html" %}
-<!-- {% load static %} -->
+{% load static %}
 {% block content %}
 	<div class="want-to-write-something">
 		<p>Have something in mind? <a href="{% url 'new-post' %}">Write here!</a></p>
 	</div>
-	{% for post in objects %}
-		<a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a>
-		<img src="{{ post.author.profile.profile_pic.url }}">
-		<br>
+	
+	<div class="blog-section">
+		{% for post in objects %}
+			<!-- <a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a> -->
+			<div class="media">
+			  <img class="profile-pic" src="{{ post.author.profile.profile_pic.url }}">
+			  <div class="media-body">
+			    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+			  </div>
+			</div>
+			<hr>
+		{% endfor %}
+	</div>
 		
-	{% endfor %}
+	
 {% endblock content %}
