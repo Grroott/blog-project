@@ -6,18 +6,24 @@
 		<p>Have something in mind? <a href="{% url 'new-post' %}">Write here!</a></p>
 	</div>
 	<p>{{ request.user }}</p>
-	<div class="blog-section">
 		{% for post in objects %}
-			<a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a><p> by {{ post.author }} on {{ post.date_posted | timesince }}</p>
-			<div class="media">
-			  <img class="profile-pic" src="{{ post.author.profile.profile_pic.url }}">
-			  <div class="media-body">
-			    <p>{{ post.content }}</p>
-			  </div>
+			<div class="blog-section mb-3">
+				<div class="media">
+				  <img class="profile-pic" src="{{ post.author.profile.profile_pic.url }}">
+				  <div class="media-body">
+				  	{{ post.author }}
+				  	<br>
+				  	<small>{{ post.date_posted | naturaltime }}</small>
+				  </div> 
+				</div>
+				<hr>
+				<div>
+					<h3><a href="{% url 'post-detail' post.slug %}">{{ post.title }}</a><br></h3>
+					<p>{{ post.content }}</p>
+				</div>
 			</div>
-			<hr>
 		{% endfor %}
-	</div>
+	
 		
 	
 {% endblock content %}
