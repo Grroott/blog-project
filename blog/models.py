@@ -12,7 +12,7 @@ class Post(models.Model):
 	content = models.TextField(verbose_name = "Post content")
 	date_posted = models.DateTimeField(default=timezone.now, verbose_name = "Date posted")
 	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "author")
-	slug = models.SlugField(unique=True)
+	slug = models.SlugField(max_length=200, unique=True)
 
 	def __str__(self):
 		return self.title
