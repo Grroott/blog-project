@@ -20,7 +20,8 @@
 				<h5><a href="{% url 'post-detail' post.slug %}" style="color: #3b3b3b">{{ post.title }}</a></h5>
 			</div>
 			<div class="blog-content text-muted">
-				<p>{{ post.content | linebreaks }}</p>
+				<p style="height: 4.5rem; line-height: 1.5rem; overflow: hidden;">{{ post.content }}</p>
+				<a href="{% url 'post-detail' post.slug %}">Read more</a>
 			</div>
 		</div>
 		{% endfor %}
