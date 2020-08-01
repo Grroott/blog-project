@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
+{% extends 'blog/base.html' %}
+
+{% block content %}
 	<p>{{ profile.user }}</p>
 	<p>{{ profile.bio }}</p>
 	<img src="{{ profile.profile_pic.url }}">
-</body>
-</html>
+{% endblock content %}
