@@ -1,6 +1,24 @@
 {% extends "blog/base.html" %}
-
+{% load static %}
+{% load humanize %}
 {% block content %}
-	<h1>{{ post.title }}</h1>
-	<p>{{ post.content }}</p>
+
+	<div class="blog-section mb-3">
+		<div class="media">
+		  <img class="profile-pic" src="{{ post.author.profile.profile_pic.url }}">
+		  <div class="media-body">
+		  	<strong>{{ post.author }}</strong>
+		  	<br>
+		  	<small class="text-muted">{{ post.date_posted | naturaltime }}</small>
+		  </div> 
+		</div>
+		<hr>
+		<div class="blog-title">
+			<h5><a href="{% url 'post-detail' post.slug %}" style="color: #3b3b3b">{{ post.title }}</a></h5>
+		</div>
+		<div class="blog-content text-muted">
+			<p>{{ post.content | linebreaks }}</p>
+		</div>
+	</div>
+	
 {% endblock content %}
