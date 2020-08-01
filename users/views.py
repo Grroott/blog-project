@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm
+from .models import Profile
+from django.contrib.auth.models import User
 
 def register(request):
 	if request.method == 'POST':
@@ -13,3 +15,13 @@ def register(request):
 		form = UserRegisterForm()
 
 	return render(request, 'users/register.html', {'form': form})
+
+def profiles(request, username):
+	p_user = get_object_or_404(User, username=username)
+	profile = get_object_or_404(Profile, user=p_user)
+
+	context ={
+	'profile' : profile
+	}
+
+	return render (request, 'users/profile.html', context)
