@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm
 from .models import Profile
 from django.contrib.auth.models import User
+from blog.models import Post
 
 def register(request):
 	if request.method == 'POST':
@@ -20,8 +21,11 @@ def profiles(request, username):
 	p_user = get_object_or_404(User, username=username)
 	profile = get_object_or_404(Profile, user=p_user)
 
+	posts = Post.objects.filter(author=p_user)
+
 	context ={
-	'profile' : profile
+	'profile' : profile,
+	'posts' : posts
 	}
 
 	return render (request, 'users/profile.html', context)

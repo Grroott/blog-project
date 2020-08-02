@@ -38,3 +38,11 @@ body {
 .blog-content {
 	margin-top: 1rem;
 }
+
+/* Profile page */
+
+.profile-page-pic {
+  height: 170px;
+  width: 170px;
+  border-radius: 100px;	
+}

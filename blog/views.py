@@ -11,7 +11,7 @@ def home(request):
 
 	qs = Post.objects.all().order_by('-date_posted')
 	context = {
-	'objects' : qs
+	'posts' : qs
 	}
 	return render(request, 'blog/home.html', context)
 
