@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from .forms import NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 
 
@@ -32,8 +33,23 @@ def new_post(request):
 
 def post_detail(request, slug):
 	post = get_object_or_404(Post, slug=slug)
+
+	# Bookmark logic
+	is_bookmark = False
+	if post.bookmark.filter(id=request.user.id).exists():
+		is_bookmark = True
+
 	context = {
-	'post' : post
+	'post' : post,
+	'is_bookmark' : is_bookmark
 	}
 
 	return render(request, 'blog/post_detail.html', context)
+
+def bookmark_post(request, slug):
+	post = get_object_or_404(Post, slug=slug)
+	if post.bookmark.filter(id=request.user.id).exists():
+		post.bookmark.remove(request.user)
+	else:
+		post.bookmark.add(request.user)
+	return HttpResponseRedirect(post.get_absolute_url())

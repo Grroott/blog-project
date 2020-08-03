@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.text import slugify
 import secrets
-
-# Create your models here.
+from django.urls import reverse
 
 
 class Post(models.Model):
@@ -13,10 +12,15 @@ class Post(models.Model):
 	date_posted = models.DateTimeField(default=timezone.now, verbose_name = "Date posted")
 	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "author")
 	slug = models.SlugField(max_length=200, unique=True)
+	bookmark = models.ManyToManyField(User, related_name='bookmark', blank=True)
 
 	def __str__(self):
 		return self.title
 
 	def save(self, *args, **kwargs):
-		self.slug ="%s-%s" %(slugify(self.title, allow_unicode=True), secrets.token_hex(10))
+		if not self.slug:
+			self.slug ="%s-%s" %(slugify(self.title, allow_unicode=True), secrets.token_hex(10))
 		return super(Post, self).save(*args, **kwargs)
+
+	def get_absolute_url(self):
+		return reverse('post-detail', kwargs={'slug': self.slug})
