@@ -8,10 +8,15 @@
 	</div>
 	<div class="mt-3"><p><em>{{ profile.bio }}</em></p></div>
 	<br>
-	<button class="btn btn-outline-dark" type="submit">Follow</button>
-	{% if request.user == profile.user %}
-		<button class="btn btn-outline-dark float-right" type="submit"><a href="{% url 'edit-profile' %}" >Edit profile</a></button>
+	
+	{% if request.user != profile.user %}
+		<button class="btn btn-outline-dark" type="submit">Follow</button>
+	{% else %}
+		<form action="{% url 'edit-profile' %}">
+			<button class="btn btn-outline-dark float-right" type="submit">Edit profile</button>
+		</form>
 	{% endif %}
+	
 	<br>
 	<br>
 </div>
