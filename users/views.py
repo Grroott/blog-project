@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, ProfileUpdateForm
 from .models import Profile
 from django.contrib.auth.models import User
 from blog.models import Post
+from django.contrib.auth.decorators import login_required
 
 def register(request):
 	if request.method == 'POST':
@@ -29,3 +30,21 @@ def profiles(request, username):
 	}
 
 	return render (request, 'users/profile.html', context)
+
+@login_required
+def edit_profile(request):
+
+	if request.method == "POST":
+		p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+		if p_form.is_valid():
+			p_form.save()
+			return redirect('profile', username=request.user.username)
+	else:
+		p_form = ProfileUpdateForm(instance=request.user.profile)
+
+	context = {		
+		'p_form' : p_form
+	}
+
+	return render(request, 'users/edit_profile.html', context)

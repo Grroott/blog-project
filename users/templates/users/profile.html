@@ -10,7 +10,7 @@
 	<br>
 	<button class="btn btn-outline-dark" type="submit">Follow</button>
 	{% if request.user == profile.user %}
-		<button class="btn btn-outline-dark float-right" type="submit">Edit profile</button>
+		<button class="btn btn-outline-dark float-right" type="submit"><a href="{% url 'edit-profile' %}" >Edit profile</a></button>
 	{% endif %}
 	<br>
 	<br>
