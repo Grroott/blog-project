@@ -46,3 +46,7 @@ body {
   width: 170px;
   border-radius: 100px;	
 }
+
+.nav-pills .nav-link.active {
+    background-color: #3b3b3b!important;
+}
