@@ -42,7 +42,7 @@ def edit_profile(request):
 
 		if p_form.is_valid():
 			p_form.save()
-			return redirect('profile', username=request.user.username)
+			return redirect('edit-profile')
 	else:
 		p_form = ProfileUpdateForm(instance=request.user.profile)
 
