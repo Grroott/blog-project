@@ -34,6 +34,9 @@ def profiles(request, username):
 @login_required
 def edit_profile(request):
 
+	p_user = get_object_or_404(User, username=request.user)
+	profile = get_object_or_404(Profile, user=p_user)
+
 	if request.method == "POST":
 		p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
 
@@ -44,7 +47,8 @@ def edit_profile(request):
 		p_form = ProfileUpdateForm(instance=request.user.profile)
 
 	context = {		
-		'p_form' : p_form
+		'p_form' : p_form,
+		'profile' : profile
 	}
 
 	return render(request, 'users/edit_profile.html', context)
