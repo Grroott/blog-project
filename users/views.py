@@ -52,3 +52,15 @@ def edit_profile(request):
 	}
 
 	return render(request, 'users/edit_profile.html', context)
+
+@login_required
+def my_bookmarks(request):
+	user = request.user
+	bookmarks_qs = user.bookmark.all()
+	bookmarks = list(reversed(bookmarks_qs))
+
+	context={
+	'posts': bookmarks
+	}
+
+	return render (request, 'users/my_bookmarks.html', context)
