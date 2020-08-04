@@ -75,11 +75,18 @@ def bookmark_post(request, slug):
 @login_required
 def like_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
-	if post.like.filter(id=request.user.id).exists():
-		post.like.remove(request.user)
+
+	if post.author != request.user:
+
+		if post.like.filter(id=request.user.id).exists():
+			post.like.remove(request.user)
+		else:
+			post.like.add(request.user)
+		return HttpResponseRedirect(post.get_absolute_url())
+
 	else:
-		post.like.add(request.user)
-	return HttpResponseRedirect(post.get_absolute_url())
+
+		return HttpResponseRedirect(post.get_absolute_url())
 
 def top_posts(request):
 	posts = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes')[:5]
