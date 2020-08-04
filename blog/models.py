@@ -13,6 +13,7 @@ class Post(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "author")
 	slug = models.SlugField(max_length=200, unique=True)
 	bookmark = models.ManyToManyField(User, related_name='bookmark', blank=True)
+	like = models.ManyToManyField(User, related_name='like', blank=True)
 
 	def __str__(self):
 		return self.title

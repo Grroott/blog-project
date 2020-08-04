@@ -39,17 +39,33 @@ def post_detail(request, slug):
 	if post.bookmark.filter(id=request.user.id).exists():
 		is_bookmark = True
 
+	# Like logic
+	is_like = False
+	if post.like.filter(id=request.user.id).exists():
+		is_like = True
+
 	context = {
 	'post' : post,
-	'is_bookmark' : is_bookmark
+	'is_bookmark' : is_bookmark,
+	'is_like' : is_like
 	}
 
 	return render(request, 'blog/post_detail.html', context)
 
+@login_required
 def bookmark_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 	if post.bookmark.filter(id=request.user.id).exists():
 		post.bookmark.remove(request.user)
 	else:
 		post.bookmark.add(request.user)
+	return HttpResponseRedirect(post.get_absolute_url())
+
+@login_required
+def like_post(request, slug):
+	post = get_object_or_404(Post, slug=slug)
+	if post.like.filter(id=request.user.id).exists():
+		post.like.remove(request.user)
+	else:
+		post.like.add(request.user)
 	return HttpResponseRedirect(post.get_absolute_url())
