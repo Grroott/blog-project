@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from django.views.generic import ListView
-from .forms import NewPostForm
+from .forms import NewPostForm, PostEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -52,6 +52,29 @@ def post_detail(request, slug):
 	}
 
 	return render(request, 'blog/post_detail.html', context)
+
+@login_required
+def edit_post(request, slug):
+	post = get_object_or_404(Post, slug=slug)
+
+	if post.author == request.user:
+
+		if request.method == 'POST':
+
+			edit_form = PostEditForm(request.POST, instance=post)
+			if edit_form.is_valid():
+				edit_form.save()
+				return HttpResponseRedirect(post.get_absolute_url())
+		else:
+			edit_form=PostEditForm(instance=post)
+	else:
+		return HttpResponseRedirect(post.get_absolute_url())
+		
+	context = {
+	'edit_form' : edit_form
+	}
+
+	return render(request, 'blog/edit_post.html', context)
 
 @login_required
 def delete_post(request, slug):

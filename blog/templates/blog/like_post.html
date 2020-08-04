@@ -35,8 +35,9 @@
 {% if post.author == request.user %}
 
 	<a href="#deleteModalCenter" data-toggle="modal" data-target="#deleteModalCenter" 
-	class="float-right" style="color: #3b3b3b"><small>delete</small></a>
+	class="float-right ml-3" style="color: #3b3b3b"><small>Delete</small></a>
 
+	<a href="{% url 'edit-post' post.slug %}" class="float-right" style="color: #3b3b3b"><small>Edit</small></a>
 
 	<div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
