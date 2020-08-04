@@ -5,6 +5,7 @@ from .forms import NewPostForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.db.models import Count
 
 
 
@@ -69,3 +70,12 @@ def like_post(request, slug):
 	else:
 		post.like.add(request.user)
 	return HttpResponseRedirect(post.get_absolute_url())
+
+def top_posts(request):
+	posts = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes')[:5]
+
+	context = {
+	'posts' : posts
+	}
+
+	return render(request, 'blog/top_posts.html', context)
