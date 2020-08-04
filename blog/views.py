@@ -54,6 +54,16 @@ def post_detail(request, slug):
 	return render(request, 'blog/post_detail.html', context)
 
 @login_required
+def delete_post(request, slug):
+	post = get_object_or_404(Post, slug=slug)
+	if post.author == request.user:
+		post.delete()
+		return redirect('home')
+	else:
+		return HttpResponseRedirect(post.get_absolute_url())
+
+
+@login_required
 def bookmark_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 	if post.bookmark.filter(id=request.user.id).exists():
