@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.db.models import Count
+from django.contrib import messages
 
 
 
@@ -64,6 +65,7 @@ def edit_post(request, slug):
 			edit_form = PostEditForm(request.POST, instance=post)
 			if edit_form.is_valid():
 				edit_form.save()
+				messages.success(request, f'Your changes has been updated successfully!!')
 				return HttpResponseRedirect(post.get_absolute_url())
 		else:
 			edit_form=PostEditForm(instance=post)
@@ -81,6 +83,7 @@ def delete_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 	if post.author == request.user:
 		post.delete()
+		messages.success(request, f'Your post has been deleted successfully!!')
 		return redirect('home')
 	else:
 		return HttpResponseRedirect(post.get_absolute_url())
@@ -91,8 +94,10 @@ def bookmark_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 	if post.bookmark.filter(id=request.user.id).exists():
 		post.bookmark.remove(request.user)
+		messages.success(request, f'This post is successfully removed from your Bookmarks!!')
 	else:
 		post.bookmark.add(request.user)
+		messages.success(request, f'This post is successfully added to your Bookmarks!!')
 	return HttpResponseRedirect(post.get_absolute_url())
 
 @login_required
@@ -108,7 +113,7 @@ def like_post(request, slug):
 		return HttpResponseRedirect(post.get_absolute_url())
 
 	else:
-
+		messages.success(request, f'You cannot like your own post!!')
 		return HttpResponseRedirect(post.get_absolute_url())
 
 def top_posts(request):
