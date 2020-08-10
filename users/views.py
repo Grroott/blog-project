@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from blog.models import Post
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Count
 
 def register(request):
 	if request.method == 'POST':
@@ -24,10 +25,12 @@ def profiles(request, username):
 	profile = get_object_or_404(Profile, user=p_user)
 
 	posts = Post.objects.filter(author=p_user)
+	like_count = posts.aggregate(Count('like'))['like__count']
 
 	context ={
 	'profile' : profile,
-	'posts' : posts
+	'posts' : posts,
+	'like_count' : like_count
 	}
 
 	return render (request, 'users/profile.html', context)
