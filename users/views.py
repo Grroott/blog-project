@@ -4,6 +4,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 from blog.models import Post
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def register(request):
 	if request.method == 'POST':
@@ -42,6 +43,7 @@ def edit_profile(request):
 
 		if p_form.is_valid():
 			p_form.save()
+			messages.success(request, f'Your profile has been updated successfully!!')
 			return redirect('edit-profile')
 	else:
 		p_form = ProfileUpdateForm(instance=request.user.profile)
