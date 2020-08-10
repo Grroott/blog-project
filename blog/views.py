@@ -4,10 +4,10 @@ from django.views.generic import ListView
 from .forms import NewPostForm, PostEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.db.models import Count
 from django.contrib import messages
-
+from django.template.loader import render_to_string
 
 
 def home(request):
@@ -105,12 +105,26 @@ def like_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 
 	if post.author != request.user:
+		
+		post_slug = request.POST.get('slug')
+
+		# Like logic
+		is_like = False
+		if post.like.filter(id=request.user.id).exists():
+			is_like = True
 
 		if post.like.filter(id=request.user.id).exists():
 			post.like.remove(request.user)
 		else:
 			post.like.add(request.user)
-		return HttpResponseRedirect(post.get_absolute_url())
+		# return HttpResponseRedirect(post.get_absolute_url())
+		if request.is_ajax():
+			context = {
+			'post' : post,
+			'is_like' : is_like
+			}
+			html = render_to_string('blog/post_util.html', context, request=request)
+			return JsonResponse({'form': html})
 
 	else:
 		messages.success(request, f'You cannot like your own post!!')
