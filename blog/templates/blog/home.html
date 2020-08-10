@@ -4,6 +4,8 @@
 	<div class="want-to-write-something">
 		<p>Have something in mind? <a href="{% url 'new-post' %}">Write here!</a></p>
 	</div>
-	{% include 'blog/post_list.html' %}
+	{% for post in posts %}
+  		{% include 'blog/post_list.html' %}
+  	{% endfor %}
 	
 {% endblock content %}

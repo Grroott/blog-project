@@ -26,11 +26,13 @@ def profiles(request, username):
 
 	posts = Post.objects.filter(author=p_user)
 	like_count = posts.aggregate(Count('like'))['like__count']
+	author_top_posts = posts.annotate(num_likes=Count('like')).order_by('-num_likes')
 
 	context ={
 	'profile' : profile,
 	'posts' : posts,
-	'like_count' : like_count
+	'like_count' : like_count,
+	'author_top_posts' : author_top_posts
 	}
 
 	return render (request, 'users/profile.html', context)
