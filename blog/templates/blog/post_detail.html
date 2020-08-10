@@ -20,9 +20,11 @@
 		<div class="blog-content text-muted">
 			<p>{{ post.content | linebreaks }}</p>
 		</div>
-		<div class="post-footer">
-			{% include 'blog/post_util.html' %}
-		</div>
+		{% if request.user.is_authenticated %}
+			<div class="post-footer">
+				{% include 'blog/post_util.html' %}
+			</div>
+		{% endif %}
 	</div>
 
 {% endblock content %}

@@ -4,7 +4,7 @@ from django.views.generic import ListView
 from .forms import NewPostForm, PostEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.db.models import Count
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -104,31 +104,27 @@ def bookmark_post(request, slug):
 def like_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 
-	if post.author != request.user:
-		
-		post_slug = request.POST.get('slug')
+	post_slug = request.POST.get('slug')
 
-		# Like logic
-		is_like = False
-		if post.like.filter(id=request.user.id).exists():
-			is_like = True
+	# Like logic
+	is_like = False
+	if post.like.filter(id=request.user.id).exists():
+		is_like = True
 
-		if post.like.filter(id=request.user.id).exists():
-			post.like.remove(request.user)
-		else:
-			post.like.add(request.user)
-		# return HttpResponseRedirect(post.get_absolute_url())
-		if request.is_ajax():
-			context = {
-			'post' : post,
-			'is_like' : is_like
-			}
-			html = render_to_string('blog/post_util.html', context, request=request)
-			return JsonResponse({'form': html})
-
+	if post.like.filter(id=request.user.id).exists():
+		post.like.remove(request.user)
 	else:
-		messages.success(request, f'You cannot like your own post!!')
-		return HttpResponseRedirect(post.get_absolute_url())
+		post.like.add(request.user)
+	# return HttpResponseRedirect(post.get_absolute_url())
+	if request.is_ajax():
+		context = {
+		'post' : post,
+		'is_like' : is_like
+		}
+		html = render_to_string('blog/post_util.html', context, request=request)
+		return JsonResponse({'form': html})
+	else:
+		raise Http404("Access denied!")
 
 def top_posts(request):
 	posts = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes')[:5]
