@@ -8,7 +8,11 @@
 		  <img class="profile-pic" src="{{ post.author.profile.profile_pic.url }}">
 		  <div class="media-body">
 		  	<a href="{% url 'profile' post.author %}" style="color: #3b3b3b"><strong>{{ post.author }}</strong></a> 
-		  	{% include 'blog/add_bookmark.html' %}
+
+		  	{% if request.user.is_authenticated %}
+		  		{% include 'blog/add_bookmark.html' %}
+		  	{% endif %}
+		  	
 		  	<br>
 		  	<small class="text-muted">{{ post.date_posted | naturaltime }}</small>
 		  </div> 
