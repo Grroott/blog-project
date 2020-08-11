@@ -1,7 +1,9 @@
 {% extends "blog/base.html" %}
 {% load static %}
+
 {% block content %}
-	
-	{% include 'blog/post_list.html' %}
+	{% for post in posts %}
+		{% include 'blog/post_list.html' %}
+	{% endfor %}
 	
 {% endblock content %}
