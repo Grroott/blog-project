@@ -6,7 +6,6 @@
 		<div class="profile-follow">
 			{% include 'users/profile_util.html' %}
 		</div>
-		
 		<br>
 		<br>
 	</div>
@@ -18,7 +17,7 @@
 	    <a class="nav-link" id="pills-followers-tab" data-toggle="pill" href="#pills-followers" role="tab" aria-controls="pills-followers" aria-selected="false">Followers ({{ profile.follow.count }})</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" id="pills-following-tab" data-toggle="pill" href="#pills-following" role="tab" aria-controls="pills-following" aria-selected="false">Following</a>
+	    <a class="nav-link" id="pills-following-tab" data-toggle="pill" href="#pills-following" role="tab" aria-controls="pills-following" aria-selected="false">Following ({{ following.count }})</a>
 	  </li>
 	  <li class="nav-item">
 	    <a class="nav-link" id="pills-likes-tab" data-toggle="pill" href="#pills-likes" role="tab" aria-controls="pills-likes" aria-selected="false">Likes ({{ like_count }})</a>
@@ -38,7 +37,15 @@
 		  	{% endfor %}
 	  	</div>
 	  </div>
-	  <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">Following</div>
+	  <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">
+	  	<div class="blog-section">
+		  	{% for u_profile in following %}
+		  		<img class="profile-pic" src="{{ u_profile.profile_pic.url }}">
+				<span><a href="{% url 'profile' u_profile.user %}" style="color: #3b3b3b">{{ u_profile.user }}</a></span> 
+				<br><hr>
+	  		{% endfor %}
+	  	</div>
+	  </div>
 	  <div class="tab-pane fade" id="pills-likes" role="tabpanel" aria-labelledby="pills-likes-tab">
 	  	{% for post in author_top_posts %}
 	  		{% include 'blog/post_list.html' %}

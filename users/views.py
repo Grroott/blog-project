@@ -29,6 +29,7 @@ def profiles(request, username):
 	posts = Post.objects.filter(author=p_user)
 	like_count = posts.aggregate(Count('like'))['like__count']
 	author_top_posts = posts.annotate(num_likes=Count('like')).order_by('-num_likes')
+	following = Profile.objects.filter(follow=p_user).all()
 
 	#Follow logic 
 
@@ -41,7 +42,8 @@ def profiles(request, username):
 	'posts' : posts,
 	'like_count' : like_count,
 	'author_top_posts' : author_top_posts,
-	'is_follow' : is_follow
+	'is_follow' : is_follow,
+	'following' : following
 
 	}
 
