@@ -24,19 +24,39 @@
           
           var url = "{% url 'like-post' 12345 %}".replace(/12345/, slug.toString());
          
-                  $.ajax({
-                      type : 'POST',
-                      url : url,
-                      data : {'slug' : slug, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, 
-                      dataType : 'json',
-                      success : function(response){
-                        $(".post-footer").load(" .post-footer")
-                      },
-                      error : function(rs, e){
-                        
-                      },
-                  });
+              $.ajax({
+                  type : 'POST',
+                  url : url,
+                  data : {'slug' : slug, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, 
+                  dataType : 'json',
+                  success : function(response){
+                    $(".post-footer").load(" .post-footer")
+                  },
+                  error : function(rs, e){
+                    
+                  },
               });
+            });
+        $(document).on('click', '#follow', function(event){
+          event.preventDefault();
+          var username = $(this).attr('value');
+          console.log(username)
+          var url = "{% url 'follow-profile' 12345 %}".replace(/12345/, username.toString());
+          console.log(url)
+              $.ajax({
+                  type : 'POST',
+                  url : url,
+                  data : {'username' : username, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, 
+                  dataType : 'json',
+                  success : function(response){
+                    $(".profile-follow").load(" .profile-follow")
+                  },
+                  error : function(rs, e){
+
+                  },
+              });
+            });
+
           });
       </script>
   </head>

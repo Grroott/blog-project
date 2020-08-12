@@ -6,7 +6,8 @@ from blog.models import Post
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, Http404
+from django.template.loader import render_to_string
 
 def register(request):
 	if request.method == 'POST':
@@ -84,7 +85,17 @@ def follow_profile(request, username):
 		profile.follow.remove(request.user)
 	else:
 		profile.follow.add(request.user)
-	return HttpResponseRedirect(profile.get_absolute_url())
+	# return HttpResponseRedirect(profile.get_absolute_url()) 
+
+	if request.is_ajax():
+		context = {
+		'profile' : profile,
+		'is_follow' : is_follow
+		}
+		html = render_to_string('users/profile_util.html', context, request=request)
+		return JsonResponse({'form': html})
+	# else:
+	# 	raise Http404("Access denied!")
 
 @login_required
 def my_bookmarks(request):

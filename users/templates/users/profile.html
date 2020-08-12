@@ -3,23 +3,9 @@
 {% block content %}
 	<div class="blog-section mb-3">
 		{% include 'users/base_profile.html' %}
-		
-		{% if request.user != profile.user %}
-			{% if is_follow %}
-				<form action="{% url 'follow-profile' profile.user.username %}">
-					<button class="btn btn-outline-dark btn-sm" type="submit">Following</button>
-				</form>
-			{% else %}
-				<form action="{% url 'follow-profile' profile.user.username %}">
-					<button class="btn btn-outline-dark btn-sm" type="submit">Follow</button>
-				</form>
-			{% endif %}
-
-		{% else %}
-			<form action="{% url 'edit-profile' %}">
-				<button class="btn btn-outline-dark float-right btn-sm" type="submit">Edit profile</button>
-			</form>
-		{% endif %}
+		<div class="profile-follow">
+			{% include 'users/profile_util.html' %}
+		</div>
 		
 		<br>
 		<br>
