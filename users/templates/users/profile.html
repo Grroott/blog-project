@@ -15,7 +15,7 @@
 	    <a class="nav-link active" id="pills-posts-tab" data-toggle="pill" href="#pills-posts" role="tab" aria-controls="pills-posts" aria-selected="true">Posts ({{ posts.count }})</a>
 	  </li>
 	  <li class="nav-item">
-	    <a class="nav-link" id="pills-followers-tab" data-toggle="pill" href="#pills-followers" role="tab" aria-controls="pills-followers" aria-selected="false">Followers</a>
+	    <a class="nav-link" id="pills-followers-tab" data-toggle="pill" href="#pills-followers" role="tab" aria-controls="pills-followers" aria-selected="false">Followers ({{ profile.follow.count }})</a>
 	  </li>
 	  <li class="nav-item">
 	    <a class="nav-link" id="pills-following-tab" data-toggle="pill" href="#pills-following" role="tab" aria-controls="pills-following" aria-selected="false">Following</a>
@@ -30,7 +30,14 @@
 	  		{% include 'blog/post_list.html' %}
 	  	{% endfor %}
 	  </div>
-	  <div class="tab-pane fade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab">Followers</div>
+	  <div class="tab-pane fade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab">
+	  	<div class="blog-section">
+		  	{% for user in profile.follow.all %}
+		  		{% include 'blog/list_user.html' %}
+		  		<hr>
+		  	{% endfor %}
+	  	</div>
+	  </div>
 	  <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">Following</div>
 	  <div class="tab-pane fade" id="pills-likes" role="tabpanel" aria-labelledby="pills-likes-tab">
 	  	{% for post in author_top_posts %}
