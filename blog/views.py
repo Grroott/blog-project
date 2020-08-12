@@ -104,8 +104,6 @@ def bookmark_post(request, slug):
 def like_post(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 
-	post_slug = request.POST.get('slug')
-
 	# Like logic
 	is_like = False
 	if post.like.filter(id=request.user.id).exists():

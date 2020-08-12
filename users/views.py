@@ -6,6 +6,7 @@ from blog.models import Post
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
+from django.http import HttpResponseRedirect
 
 def register(request):
 	if request.method == 'POST':
@@ -28,11 +29,19 @@ def profiles(request, username):
 	like_count = posts.aggregate(Count('like'))['like__count']
 	author_top_posts = posts.annotate(num_likes=Count('like')).order_by('-num_likes')
 
+	#Follow logic 
+
+	is_follow = False
+	if profile.follow.filter(id=request.user.id).exists():
+		is_follow = True
+
 	context ={
 	'profile' : profile,
 	'posts' : posts,
 	'like_count' : like_count,
-	'author_top_posts' : author_top_posts
+	'author_top_posts' : author_top_posts,
+	'is_follow' : is_follow
+
 	}
 
 	return render (request, 'users/profile.html', context)
@@ -59,6 +68,23 @@ def edit_profile(request):
 	}
 
 	return render(request, 'users/edit_profile.html', context)
+
+
+@login_required
+def follow_profile(request, username):
+	
+	p_user = get_object_or_404(User, username=username)
+	profile = get_object_or_404(Profile, user=p_user)
+
+	is_follow = False
+	if profile.follow.filter(id=request.user.id).exists():
+		is_follow = True
+
+	if profile.follow.filter(id=request.user.id).exists():
+		profile.follow.remove(request.user)
+	else:
+		profile.follow.add(request.user)
+	return HttpResponseRedirect(profile.get_absolute_url())
 
 @login_required
 def my_bookmarks(request):
