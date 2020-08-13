@@ -96,8 +96,8 @@ def follow_profile(request, username):
 		}
 		html = render_to_string('users/profile_util.html', context, request=request)
 		return JsonResponse({'form': html})
-	# else:
-	# 	raise Http404("Access denied!")
+	else:
+		raise Http404("Access denied!")
 
 @login_required
 def my_bookmarks(request):
