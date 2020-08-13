@@ -32,21 +32,25 @@
 		  	{% endfor %}
 		  </div>
 		  <div class="tab-pane fade" id="pills-followers" role="tabpanel" aria-labelledby="pills-followers-tab">
-		  	<div class="blog-section">
-			  	{% for user in profile.follow.all %}
-			  		{% include 'blog/list_user.html' %}
-			  		<hr>
-			  	{% endfor %}
-		  	</div>
+		  	{% if profile.follow.all %}
+			  	<div class="blog-section">
+				  	{% for user in profile.follow.all %}
+				  		{% include 'blog/list_user.html' %}
+				  		<hr>
+				  	{% endfor %}
+			  	</div>
+			{% endif %}
 		  </div>
 		  <div class="tab-pane fade" id="pills-following" role="tabpanel" aria-labelledby="pills-following-tab">
-		  	<div class="blog-section">
-			  	{% for u_profile in following %}
-			  		<img class="profile-pic" src="{{ u_profile.profile_pic.url }}">
-					<span><a href="{% url 'profile' u_profile.user %}" style="color: #3b3b3b">{{ u_profile.user }}</a></span> 
-					<br><hr>
-		  		{% endfor %}
-		  	</div>
+		  	{% if following %}
+			  	<div class="blog-section">
+				  	{% for u_profile in following %}
+				  		<img class="profile-pic" src="{{ u_profile.profile_pic.url }}">
+						<span><a href="{% url 'profile' u_profile.user %}" style="color: #3b3b3b">{{ u_profile.user }}</a></span> 
+						<br><hr>
+			  		{% endfor %}
+			  	</div>
+			{% endif %}
 		  </div>
 		  <div class="tab-pane fade" id="pills-likes" role="tabpanel" aria-labelledby="pills-likes-tab">
 		  	{% for post in author_top_posts %}
