@@ -110,3 +110,13 @@ def my_bookmarks(request):
 	}
 
 	return render (request, 'users/my_bookmarks.html', context)
+
+def top_authors(request):
+	
+	profiles = Profile.objects.all().annotate(num_follow=Count('follow')).order_by('-num_follow')[:5]
+
+	context={
+	'profiles': profiles
+	}
+
+	return render (request, 'users/top_authors.html', context)
