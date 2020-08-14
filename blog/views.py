@@ -8,13 +8,18 @@ from django.http import HttpResponseRedirect, JsonResponse, Http404
 from django.db.models import Count
 from django.contrib import messages
 from django.template.loader import render_to_string
+from django.core.paginator import Paginator
 
 
 def home(request):
 
 	qs = Post.objects.all().order_by('-date_posted')
+	paginator = Paginator(qs, 5)
+
+	page_number = request.GET.get('page')
+	posts = paginator.get_page(page_number)
 	context = {
-	'posts' : qs
+	'posts' : posts
 	}
 	return render(request, 'blog/home.html', context)
 
