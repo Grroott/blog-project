@@ -4,7 +4,7 @@ from django.views.generic import ListView
 from .forms import NewPostForm, PostEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, JsonResponse, Http404
+from django.http import HttpResponseRedirect, JsonResponse, Http404, HttpResponse
 from django.db.models import Count, Q
 from django.contrib import messages
 from django.template.loader import render_to_string
