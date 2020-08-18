@@ -75,7 +75,11 @@
 				<div class="collapse navbar-collapse" id="navbarToggle">
 		        <div class="navbar-nav mr-auto">
 		          <a class="nav-item nav-link " href="{% url 'home' %}">Home</a>
-		          <a class="nav-item nav-link mr-2 " href="#">About</a>
+		          <form method="GET" action="{% url 'search' %}" class="form-inline">
+                {% csrf_token %}
+                <input name="user_search_input" value="{{ request.GET.user_search_input }}" class="form-control mr-sm-2" type="search" placeholder="Search Posts..." aria-label="Search">
+                <button class="btn btn-outline-info mb-4 my-2 my-sm-0" type="submit">Search </button>
+              </form>
 		        </div>
 		        <!-- Navbar Right Side -->
 		        <div class="navbar-nav">

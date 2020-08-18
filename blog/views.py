@@ -5,7 +5,7 @@ from .forms import NewPostForm, PostEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse, Http404
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator
@@ -142,3 +142,16 @@ def top_posts(request):
 	}
 
 	return render(request, 'blog/top_posts.html', context)
+
+def search(request):
+	search_query = request.GET.get('user_search_input')
+
+	if search_query:
+		results = Post.objects.filter(Q(title__icontains=search_query) | Q(content__icontains=search_query)).order_by('-date_posted')
+	else:
+		return HttpResponse("Access denied")
+	context={
+	'results' : results,
+	'search_word' : search_query
+	}
+	return render(request, 'blog/search.html', context)
