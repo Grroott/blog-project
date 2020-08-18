@@ -50,3 +50,9 @@ body {
 .nav-pills .nav-link.active {
     background-color: #3b3b3b!important;
 }
+
+/* search */
+
+.highlight {
+background-color: rgba(94, 151, 242, 0.5);
+ }
