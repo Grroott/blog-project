@@ -19,7 +19,8 @@ def home(request):
 	page_number = request.GET.get('page')
 	posts = paginator.get_page(page_number)
 	context = {
-	'posts' : posts
+	'posts' : posts,
+	'title' : 'Blog | Home'
 	}
 	return render(request, 'blog/home.html', context)
 
@@ -36,10 +37,11 @@ def new_post(request):
 			return redirect('home')
 	else:	
 		form = NewPostForm()
-	return render(request, 'blog/new_post.html', {'form':form})
+	return render(request, 'blog/new_post.html', {'form':form, 'title' : 'Blog | New-post'})
 
 def post_detail(request, slug):
 	post = get_object_or_404(Post, slug=slug)
+	title = "Blog | {}".format(post.title)
 
 	# Bookmark logic
 	is_bookmark = False
@@ -54,7 +56,8 @@ def post_detail(request, slug):
 	context = {
 	'post' : post,
 	'is_bookmark' : is_bookmark,
-	'is_like' : is_like
+	'is_like' : is_like,
+	'title' : title
 	}
 
 	return render(request, 'blog/post_detail.html', context)
@@ -78,7 +81,8 @@ def edit_post(request, slug):
 		return HttpResponseRedirect(post.get_absolute_url())
 		
 	context = {
-	'edit_form' : edit_form
+	'edit_form' : edit_form,
+	'title' : 'Blog | Edit-post'
 	}
 
 	return render(request, 'blog/edit_post.html', context)
@@ -133,7 +137,8 @@ def top_posts(request):
 	posts = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes')[:5]
 
 	context = {
-	'posts' : posts
+	'posts' : posts,
+	'title' : 'Blog | Top-posts'
 	}
 
 	return render(request, 'blog/top_posts.html', context)

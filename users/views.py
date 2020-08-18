@@ -20,7 +20,7 @@ def register(request):
 	else:
 		form = UserRegisterForm()
 
-	return render(request, 'users/register.html', {'form': form})
+	return render(request, 'users/register.html', {'form': form, 'title' : 'Blog | Register'})
 
 def profiles(request, username):
 	p_user = get_object_or_404(User, username=username)
@@ -30,6 +30,7 @@ def profiles(request, username):
 	like_count = posts.aggregate(Count('like'))['like__count']
 	author_top_posts = posts.annotate(num_likes=Count('like')).order_by('-num_likes')
 	following = Profile.objects.filter(follow=p_user)
+	title = "Blog | Profile - {}".format(p_user)
 
 	#Follow logic 
 
@@ -43,7 +44,8 @@ def profiles(request, username):
 	'like_count' : like_count,
 	'author_top_posts' : author_top_posts,
 	'is_follow' : is_follow,
-	'following' : following
+	'following' : following,
+	'title' : title
 
 	}
 
@@ -67,7 +69,8 @@ def edit_profile(request):
 
 	context = {		
 		'p_form' : p_form,
-		'profile' : profile
+		'profile' : profile,
+		'title' : 'Blog | Edit-profile'
 	}
 
 	return render(request, 'users/edit_profile.html', context)
@@ -106,7 +109,8 @@ def my_bookmarks(request):
 	bookmarks = list(reversed(bookmarks_qs))
 
 	context={
-	'posts': bookmarks
+	'posts': bookmarks,
+	'title' : 'Blog | Bookmarks'
 	}
 
 	return render (request, 'users/my_bookmarks.html', context)
@@ -116,7 +120,8 @@ def top_authors(request):
 	profiles = Profile.objects.all().annotate(num_follow=Count('follow')).order_by('-num_follow')[:5]
 
 	context={
-	'profiles': profiles
+	'profiles': profiles,
+	'title' : 'Blog | Top-authors'
 	}
 
 	return render (request, 'users/top_authors.html', context)
