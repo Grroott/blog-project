@@ -19,6 +19,19 @@ body {
   border-radius: 10px;
 }
 
+.left-sidebar {
+	/*background-color: #ffffff;*/
+	/*border: 1px solid #bdbdbd;*/
+/*	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 5px;
+	padding-bottom: 10px; */
+	overflow-wrap: break-word; 
+	line-height: 2;
+	font-weight: bold;
+	
+}
+
 .blog-section {
 	background-color: #ffffff;
 	border: 1px solid #bdbdbd;
