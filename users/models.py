@@ -28,3 +28,10 @@ class Profile(models.Model):
 			output_size = (300, 300)
 			img.thumbnail(output_size)
 			img.save(self.profile_pic.path)
+
+class Feedback(models.Model):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	feedback = models.TextField(default='', null=True, blank=True)
+
+	def __str__(self):
+		return f'{self.user.username} Feedback'
