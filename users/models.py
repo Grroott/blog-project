@@ -31,7 +31,7 @@ class Profile(models.Model):
 
 class Feedback(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	feedback = models.TextField(default='', null=True, blank=True)
+	feedback = models.TextField(default='', null=True, blank=False)
 
 	def __str__(self):
 		return f'{self.user.username} Feedback'

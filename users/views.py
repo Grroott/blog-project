@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserRegisterForm, ProfileUpdateForm
+from .forms import UserRegisterForm, ProfileUpdateForm, FeedbackForm
 from .models import Profile
 from django.contrib.auth.models import User
 from blog.models import Post
@@ -16,7 +16,8 @@ def register(request):
 		if form.is_valid():
 			form.save()
 			username = form.cleaned_data.get('username')
-			return redirect('home')
+			messages.success(request, f'You are now able to login!!')
+			return redirect('login')
 	else:
 		form = UserRegisterForm()
 
@@ -125,3 +126,21 @@ def top_authors(request):
 	}
 
 	return render (request, 'users/top_authors.html', context)
+
+@login_required
+def feedback(request):
+	if request.method == 'POST':
+		form = FeedbackForm(request.POST)
+
+		if form.is_valid():
+			# print(form.cleaned_data)
+			fs = form.save(commit=False)
+			feedback = form.cleaned_data.get('feedback')
+			fs.user = request.user
+			fs.save()
+			messages.success(request, f'Thanks for your feedback!!')
+			return redirect('home')
+	else:
+		form = FeedbackForm()
+
+	return render(request, 'users/feedback.html', {'form': form, 'title' : 'Blog | Feedback'})
