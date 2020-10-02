@@ -34,4 +34,4 @@ class Feedback(models.Model):
 	feedback = models.TextField(default='', null=True, blank=False)
 
 	def __str__(self):
-		return f'{self.user.username} Feedback'
+		return f"{self.user.username}'s Feedback"
